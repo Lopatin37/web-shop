@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.0.10/web-fonts-with-css/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootadmin.min.css}">
+    <link rel="stylesheet" th:href="@{https://bootadmin.net/css/bootadmin.min.css}">
+
+
+    <title>Web-shop Admin</title>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand navbar-dark bg-primary">
+    <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
+    <a class="navbar-brand" th:href="@{/}">Admin</a>
+
+    <div class="navbar-collapse collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-envelope"></i> 5</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-bell"></i> 3</a></li>
+            <li class="nav-item dropdown">
+                <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Doe</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
+                    <a href="#" class="dropdown-item">Profile</a>
+                    <a href="#" class="dropdown-item">Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="sidebar sidebar-dark bg-dark">
+        <ul class="list-unstyled">
+            <li>
+                <a href="#sm_expand_1" data-toggle="collapse">
+                    <i class="fa fa-fw fa-link"></i> Users
+                </a>
+                <ul id="sm_expand_1" class="list-unstyled collapse">
+                    <li><a th:href="@{/users}">All users</a></li>
+                    <li><a th:href="@{/newuser}">Create user</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#sm_expand_2" data-toggle="collapse">
+                    <i class="fa fa-fw fa-link"></i> Roles
+                </a>
+                <ul id="sm_expand_2" class="list-unstyled collapse">
+                    <li><a th:href="@{/roles}">All roles</a></li>
+                    <li><a th:href="@{/newrole}">Create role</a></li>
+                </ul>
+            </li>
+            <!--            <li><a href="#"><i class="fa fa-fw fa-link"></i> Menu Item</a></li>-->
+            <!--            <li><a href="#"><i class="fa fa-fw fa-link"></i> Menu Item</a></li>-->
+            <!--            <li><a href="#"><i class="fa fa-fw fa-link"></i> Menu Item</a></li>-->
+        </ul>
+    </div>
+
+    <div class="content p-4">
+        <h2 class="mb-4">Roles</h2>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="col-12">
+                    <div class="col-12 mt-3">
+                        <form>
+                            <input placeholder="Name" type="text" name="username" id="username" th:value="${param.name}"/>
+                            <button class="btn btn-primary" type="submit">Filter</button>
+                        </form>
+                    </div>
+                    <table class="table table-bordered my-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Users</th>
+                            <th scope="col">Actions</th>
+                            <!--                            <th scope="col">Actions</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="role : ${roles.content}">
+                            <td th:text="${role.name}">Name</td>
+                            <td th:text="${role.users}">Users</td>
+                            <td>
+                                <a class="btn btn-success" th:href="@{editrole(id=${role.id})}"><i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger" th:href="@{deleterole(id=${role.id})}"><i class="far fa-trash-alt"></i> </a>
+                            </td>
+                            <!--                            <td>-->
+                            <!--                                <a class="btn btn-success"-->
+                            <!--                                   th:href="@{editproduct(id=${product.id})}"><i class="fas fa-edit"></i></a>-->
+                            <!--                                <a class="btn btn-danger"-->
+                            <!--                                   th:href="@{deleteproduct(id=${product.id})}"><i class="far fa-trash-alt"></i></a>-->
+                            <!--                            </td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-12">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li th:each="num: ${#numbers.sequence(1, roles.totalPages)}"
+                                    class="page-item"
+                                    th:classappend="${num == roles.number + 1} ? 'active'">
+                                    <a class="page-link"
+                                       th:text="${num}"
+                                       th:href="@{roles(page=${num}, size=${roles.size}, name=${param.name})}">1</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{js/bootadmin.min.js}"></script>
+<script th:src="@{https://bootadmin.net/js/datatables.min.js}"></script>
+
+</body>
+</html>

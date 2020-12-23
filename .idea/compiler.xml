@@ -6,8 +6,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="web-shop" />
+        <module name="user-ui" />
+        <module name="admin-ui" />
+        <module name="database" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="admin-ui" options="-parameters" />
+      <module name="database" options="-parameters" />
+      <module name="user-ui" options="-parameters" />
+    </option>
   </component>
 </project>

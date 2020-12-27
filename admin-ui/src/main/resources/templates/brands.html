@@ -7,7 +7,7 @@
 <div class="d-flex">
     <div th:replace="fragments/sidebar :: sidebar"></div>
     <div class="content p-4">
-        <h2 class="mb-4">Roles</h2>
+        <h2 class="mb-4">Brands</h2>
         <div class="card mb-4">
             <div class="card-body">
                 <div class="col-12">
@@ -21,37 +21,30 @@
                         <thead>
                         <tr>
                             <th scope="col">Name</th>
-                            <th scope="col">Users</th>
+                            <th scope="col">Products</th>
                             <th scope="col">Actions</th>
-                            <!--                            <th scope="col">Actions</th>-->
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="role : ${roles.content}">
-                            <td th:text="${role.name}">Name</td>
-                            <td th:text="${role.users}">Users</td>
+                        <tr th:each="brand : ${brands.content}">
+                            <td th:text="${brand.name}">Name</td>
+                            <td th:text="${brand.products}">Products</td>
                             <td>
-                                <a class="btn btn-success" th:href="@{editrole(id=${role.id})}"><i class="fas fa-edit"></i> </a>
-                                <a class="btn btn-danger" th:href="@{deleterole(id=${role.id})}"><i class="far fa-trash-alt"></i> </a>
+                                <a class="btn btn-success" th:href="@{editbrand(id=${brand.id})}"><i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger" th:href="@{deletebrand(id=${brand.id})}"><i class="far fa-trash-alt"></i> </a>
                             </td>
-                            <!--                            <td>-->
-                            <!--                                <a class="btn btn-success"-->
-                            <!--                                   th:href="@{editproduct(id=${product.id})}"><i class="fas fa-edit"></i></a>-->
-                            <!--                                <a class="btn btn-danger"-->
-                            <!--                                   th:href="@{deleteproduct(id=${product.id})}"><i class="far fa-trash-alt"></i></a>-->
-                            <!--                            </td>-->
                         </tr>
                         </tbody>
                     </table>
                     <div class="col-12">
                         <nav aria-label="...">
                             <ul class="pagination">
-                                <li th:each="num: ${#numbers.sequence(1, roles.totalPages)}"
+                                <li th:each="num: ${#numbers.sequence(1, brands.totalPages)}"
                                     class="page-item"
-                                    th:classappend="${num == roles.number + 1} ? 'active'">
+                                    th:classappend="${num == brands.number + 1} ? 'active'">
                                     <a class="page-link"
                                        th:text="${num}"
-                                       th:href="@{roles(page=${num}, size=${roles.size}, name=${param.name})}">1</a>
+                                       th:href="@{brands(page=${num}, size=${brands.size}, name=${param.name})}">1</a>
                                 </li>
                             </ul>
                         </nav>

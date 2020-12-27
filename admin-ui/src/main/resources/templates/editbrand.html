@@ -16,25 +16,17 @@
                     <table class="table table-bordered my-2">
                         <tbody>
                         <tr>
-                            <td th:text="${user.id}">User id</td>
-                            <td th:text="${user.username}">Username</td>
-                            <td th:text="${user.password}">Password</td>
-                            <td th:text="${user.roles}">Role</td>
+                            <td th:text="${brand.id}">Id</td>
+                            <td th:text="${brand.name}">Name</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="col-12">
-                    <form th:action="@{/update}" method="post" th:object="${user}">
+                    <form th:action="@{/updatebrand}" method="post" th:object="${brand}">
                         <input type="hidden" th:field="*{id}">
                         <div class="form-group">
-                            <input type="text" class="form-control" th:field="*{username}" placeholder="Enter new name">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" th:field="*{password}" placeholder="Enter new password">
-                        </div>
-                        <div class="form-group">
-                            <input type="number" class="form-control" th:field="*{roles}" placeholder="Enter role. 1-admin, 2-user">
+                            <input type="text" class="form-control" th:field="*{name}" placeholder="Enter new name">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

@@ -8,12 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.geekbrains.entity.Brand;
+import ru.geekbrains.entity.Category;
 import ru.geekbrains.entity.Role;
 import ru.geekbrains.entity.User;
-import ru.geekbrains.repository.RoleRepository;
-import ru.geekbrains.repository.RoleSpecification;
-import ru.geekbrains.repository.UserRepository;
-import ru.geekbrains.repository.UserSpecification;
+import ru.geekbrains.repository.*;
 import ru.geekbrains.security.PasswordEncoderGenerator;
 
 import javax.validation.Valid;
@@ -25,6 +24,10 @@ public class MainAdminController {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private BrandRepository brandRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
     //TODO Сделать энкодер из спринга данного модуля
     @Autowired
     PasswordEncoderGenerator bCryptPasswordEncoder;
@@ -62,6 +65,34 @@ public class MainAdminController {
         return "roles";
     }
 
+    @RequestMapping("/brands")
+    public String brandsPage(Model model,
+                            @RequestParam(value = "name", required = false) String name,
+                            @RequestParam("page")Optional<Integer> page,
+                            @RequestParam("size")Optional<Integer> size) {
+        PageRequest pageRequest = PageRequest.of(page.orElse(1) - 1, size.orElse(5), Sort.by(Sort.Direction.ASC, "id"));
+        Specification<Brand> brandSpecification = BrandSpecification.trueLiteral();
+        if(name != null && !name.isEmpty()) {
+            brandSpecification = brandSpecification.and(BrandSpecification.nameLike(name));
+        }
+        model.addAttribute("brands", brandRepository.findAll(brandSpecification, pageRequest));
+        return "brands";
+    }
+
+    @RequestMapping("/categories")
+    public String categoriesPage(Model model,
+                             @RequestParam(value = "name", required = false) String name,
+                             @RequestParam("page")Optional<Integer> page,
+                             @RequestParam("size")Optional<Integer> size) {
+        PageRequest pageRequest = PageRequest.of(page.orElse(1) - 1, size.orElse(5), Sort.by(Sort.Direction.ASC, "id"));
+        Specification<Category> categorySpecification = CategorySpecification.trueLiteral();
+        if(name != null && !name.isEmpty()) {
+            categorySpecification = categorySpecification.and(CategorySpecification.nameLike(name));
+        }
+        model.addAttribute("categories", categoryRepository.findAll(categorySpecification, pageRequest));
+        return "categories";
+    }
+
     @RequestMapping("/newuser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
@@ -72,6 +103,18 @@ public class MainAdminController {
     public String newRole(Model model) {
         model.addAttribute("role", new Role());
         return "newrole";
+    }
+
+    @RequestMapping("/newbrand")
+    public String newBrand(Model model) {
+        model.addAttribute("brand", new Brand());
+        return "newbrand";
+    }
+
+    @RequestMapping("/newcategory")
+    public String newCategory(Model model) {
+        model.addAttribute("category", new Category());
+        return "newcategory";
     }
 
     @PostMapping("/insert")
@@ -88,6 +131,18 @@ public class MainAdminController {
         return "redirect:roles";
     }
 
+    @PostMapping("/insertbrand")
+    public String insertBrand(@ModelAttribute("brand") Brand brand) {
+        brandRepository.save(brand);
+        return "redirect:brands";
+    }
+
+    @PostMapping("/insertcategory")
+    public String insertCategory(@ModelAttribute("category") Category category) {
+        categoryRepository.save(category);
+        return "redirect:categories";
+    }
+
     @GetMapping("/edituser")
     public String editUser(Model model, @RequestParam(value = "id") Long id) {
         model.addAttribute("user", userRepository.findByIdLike(id));
@@ -98,6 +153,18 @@ public class MainAdminController {
     public String editRole(Model model, @RequestParam(value = "id") Long id) {
         model.addAttribute("role", roleRepository.findByIdLike(id));
         return "editrole";
+    }
+
+    @GetMapping("/editbrand")
+    public String editBrand(Model model, @RequestParam(value = "id") Long id) {
+        model.addAttribute("brand", brandRepository.findByIdLike(id));
+        return "editbrand";
+    }
+
+    @GetMapping("/editcategory")
+    public String editCategory(Model model, @RequestParam(value = "id") Long id) {
+        model.addAttribute("category", categoryRepository.findByIdLike(id));
+        return "editcategory";
     }
 
     @PostMapping("/update")
@@ -125,6 +192,26 @@ public class MainAdminController {
         return "redirect:roles";
     }
 
+    @PostMapping("/updatebrand")
+    public String updateBrand(@ModelAttribute("brand") Brand brand) {
+        Brand brandFromDB = brandRepository.findByIdLike(brand.getId());
+        if(!brandFromDB.getName().equals(brand.getName())) {
+            brandFromDB.setName(brand.getName());
+        }
+        brandRepository.save(brandFromDB);
+        return "redirect:brands";
+    }
+
+    @PostMapping("/updatecategory")
+    public String updateCategory(@ModelAttribute("category") Category category) {
+        Category categoryFromDB = categoryRepository.findByIdLike(category.getId());
+        if(!categoryFromDB.getName().equals(category.getName())) {
+            categoryFromDB.setName(category.getName());
+        }
+        categoryRepository.save(categoryFromDB);
+        return "redirect:categories";
+    }
+
     @GetMapping("deleteuser")
     public String deleteUser(@RequestParam(value = "id") Long id) {
         userRepository.delete(userRepository.findByIdLike(id));
@@ -135,5 +222,17 @@ public class MainAdminController {
     public String deleteRole(@RequestParam(value = "id") Long id) {
         roleRepository.delete(roleRepository.findByIdLike(id));
         return "redirect:roles";
+    }
+
+    @GetMapping("deletebrand")
+    public String deleteBrand(@RequestParam(value = "id") Long id) {
+        brandRepository.delete(brandRepository.findByIdLike(id));
+        return "redirect:brands";
+    }
+
+    @GetMapping("deletecategory")
+    public String deleteCategory(@RequestParam(value = "id") Long id) {
+        categoryRepository.delete(categoryRepository.findByIdLike(id));
+        return "redirect:categories";
     }
 }

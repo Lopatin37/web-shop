@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body class="bg-light">
+<div th:fragment="sidebar" class="sidebar sidebar-dark bg-dark">
+    <ul class="list-unstyled">
+        <li>
+            <a href="#sm_expand_1" data-toggle="collapse">
+                <i class="fa fa-fw fa-link"></i> Users
+            </a>
+            <ul id="sm_expand_1" class="list-unstyled collapse">
+                <li><a th:href="@{/users}">All users</a></li>
+                <li><a th:href="@{/newuser}">Create user</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#sm_expand_2" data-toggle="collapse">
+                <i class="fa fa-fw fa-link"></i> Roles
+            </a>
+            <ul id="sm_expand_2" class="list-unstyled collapse">
+                <li><a th:href="@{/roles}">All roles</a></li>
+                <li><a th:href="@{/newrole}">Create role</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#sm_expand_3" data-toggle="collapse">
+                <i class="fa fa-fw fa-link"></i> Brands
+            </a>
+            <ul id="sm_expand_3" class="list-unstyled collapse">
+                <li><a th:href="@{/brands}">All brands</a></li>
+                <li><a th:href="@{/newbrand}">Create brand</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#sm_expand_4" data-toggle="collapse">
+                <i class="fa fa-fw fa-link"></i> Categories
+            </a>
+            <ul id="sm_expand_4" class="list-unstyled collapse">
+                <li><a th:href="@{/categories}">All categories</a></li>
+                <li><a th:href="@{/newcategory}">Create category</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

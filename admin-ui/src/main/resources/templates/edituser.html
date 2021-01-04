@@ -34,7 +34,13 @@
                             <input type="text" class="form-control" th:field="*{password}" placeholder="Enter new password">
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-control" th:field="*{roles}" placeholder="Enter role. 1-admin, 2-user">
+                            <label for="roles">User roles</label>
+                            <select multiple class="form-control" id="roles" th:field="*{roles}" required>
+                                <option th:each="role : ${roles}"
+                                        th:text="${role.name}"
+                                        th:value="${role.id}"
+                                        th:selected="${user.roles?.contains(role)}"></option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

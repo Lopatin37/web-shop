@@ -17,4 +17,10 @@
     <changeSet id="10" author="aleksandr-lptn">
         <tagDatabase tag="v-1.0"/>
     </changeSet>
+
+    <include file="v-2.0/db.changelog-20201228-175007283.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="20" author="aleksandr-lptn">
+        <tagDatabase tag="v-2.0"/>
+    </changeSet>
 </databaseChangeLog>

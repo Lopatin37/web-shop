@@ -4,12 +4,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotBlank
@@ -20,9 +22,6 @@ public class Product {
     @Column
     private BigDecimal price;
 
-    @Column
-    private String picture;
-
     @ManyToOne(targetEntity = Brand.class, optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
@@ -30,6 +29,9 @@ public class Product {
     @ManyToOne(targetEntity = Category.class, optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Picture> pictures;
 
     public Product() {}
 
@@ -52,10 +54,6 @@ public class Product {
         return price;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
     public Brand getBrand() {
         return brand;
     }
@@ -76,16 +74,20 @@ public class Product {
         this.price = price;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
     }
 
     @Override

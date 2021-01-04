@@ -8,14 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.entity.Brand;
-import ru.geekbrains.entity.Category;
-import ru.geekbrains.entity.Role;
-import ru.geekbrains.entity.User;
+import ru.geekbrains.entity.*;
 import ru.geekbrains.repository.*;
+import ru.geekbrains.repr.ProductRepr;
 import ru.geekbrains.security.PasswordEncoderGenerator;
-
+import ru.geekbrains.service.ProductService;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -28,6 +27,12 @@ public class MainAdminController {
     private BrandRepository brandRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private PictureRepository pictureRepository;
     //TODO Сделать энкодер из спринга данного модуля
     @Autowired
     PasswordEncoderGenerator bCryptPasswordEncoder;
@@ -93,9 +98,24 @@ public class MainAdminController {
         return "categories";
     }
 
+    @RequestMapping("/products")
+    public String productsPage(Model model,
+                               @RequestParam(value = "name", required = false) String name,
+                               @RequestParam("page")Optional<Integer> page,
+                               @RequestParam("size")Optional<Integer> size) {
+        PageRequest pageRequest = PageRequest.of(page.orElse(1) - 1, size.orElse(5), Sort.by(Sort.Direction.ASC, "id"));
+        Specification<Product> productSpecification = ProductSpecification.trueLiteral();
+        if(name != null && !name.isEmpty()) {
+            productSpecification = productSpecification.and(ProductSpecification.nameLike(name));
+        }
+        model.addAttribute("products", productRepository.findAll(productSpecification, pageRequest));
+        return "products";
+    }
+
     @RequestMapping("/newuser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("roles", roleRepository.findAll());
         return "newuser";
     }
 
@@ -115,6 +135,14 @@ public class MainAdminController {
     public String newCategory(Model model) {
         model.addAttribute("category", new Category());
         return "newcategory";
+    }
+
+    @RequestMapping("/newproduct")
+    public String newProduct(Model model) {
+        model.addAttribute("product", new ProductRepr());
+        model.addAttribute("brands", brandRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "newproduct";
     }
 
     @PostMapping("/insert")
@@ -143,9 +171,24 @@ public class MainAdminController {
         return "redirect:categories";
     }
 
+    @PostMapping("/insertproduct")
+    public String insertProduct(ProductRepr product) throws IOException {
+        try {
+            productService.save(product);
+        } catch (Exception ex) {
+            if (product.getId() == null) {
+                return "redirect:products";
+            }
+            return "redirect:newproduct";
+        }
+        return "redirect:products";
+    }
+
+
     @GetMapping("/edituser")
     public String editUser(Model model, @RequestParam(value = "id") Long id) {
         model.addAttribute("user", userRepository.findByIdLike(id));
+        model.addAttribute("roles", roleRepository.findAll());
         return "edituser";
     }
 
@@ -167,6 +210,14 @@ public class MainAdminController {
         return "editcategory";
     }
 
+    @GetMapping("/editproduct")
+    public String editProduct(Model model, @RequestParam(value = "id") Long id) {
+        model.addAttribute("product", productService.findById(id).get());
+        model.addAttribute("brands", brandRepository.findAll());
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "editproduct";
+    }
+
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") User user) {
         User userFromDB = userRepository.findByIdLike(user.getId());
@@ -176,8 +227,7 @@ public class MainAdminController {
         if(!userFromDB.getPassword().equals(user.getPassword())) {
             userFromDB.setPassword(bCryptPasswordEncoder.StringToHash(user.getPassword()));
         }
-//        TODO Сделать возможность удаления ролей
-        userFromDB.getRoles().addAll(user.getRoles());
+        userFromDB.setRoles(user.getRoles());
         userRepository.save(userFromDB);
         return "redirect:users";
     }
@@ -212,6 +262,19 @@ public class MainAdminController {
         return "redirect:categories";
     }
 
+    @PostMapping("/updateproduct")
+    public String updateProduct(ProductRepr product) {
+        try {
+            productService.save(product);
+        } catch (Exception ex) {
+            if (product.getId() == null) {
+                return "redirect:index";
+            }
+            return "redirect:brands";
+        }
+        return "redirect:products";
+    }
+
     @GetMapping("deleteuser")
     public String deleteUser(@RequestParam(value = "id") Long id) {
         userRepository.delete(userRepository.findByIdLike(id));
@@ -234,5 +297,23 @@ public class MainAdminController {
     public String deleteCategory(@RequestParam(value = "id") Long id) {
         categoryRepository.delete(categoryRepository.findByIdLike(id));
         return "redirect:categories";
+    }
+
+    @GetMapping("deleteproduct")
+    public String deleteProduct(@RequestParam(value = "id") Long id) {
+        productRepository.delete(productRepository.findByIdLike(id));
+        return "redirect:products";
+    }
+
+    @RequestMapping("product")
+    public String product(Model model, @RequestParam(value = "id") Long id) {
+        model.addAttribute("product", productService.findById(id).get());
+        return "product";
+    }
+
+    @RequestMapping("productimg")
+    public String productImg(Model model, @RequestParam(value = "id") Long id) {
+        model.addAttribute("picture", pictureRepository.findById(id).get());
+        return "productimg";
     }
 }

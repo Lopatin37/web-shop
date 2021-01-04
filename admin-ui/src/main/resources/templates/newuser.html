@@ -16,8 +16,14 @@
                 <input type="text" th:field="*{password}" placeholder="Password">
             </div>
             <br>
-            <div>
-                <input type="number" th:field="*{roles}" placeholder="New role. Use role Id">
+            <div class="form-group">
+                <label for="roles">User roles</label>
+                <select multiple class="form-control" id="roles" th:field="*{roles}" required>
+                    <option th:each="role : ${roles}"
+                            th:text="${role.name}"
+                            th:value="${role.id}"
+                            th:selected="${user.roles?.contains(role)}"></option>
+                </select>
             </div>
             <br>
             <button type="submit">Submit</button>

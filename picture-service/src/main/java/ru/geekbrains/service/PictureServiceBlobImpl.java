@@ -34,4 +34,9 @@ public class PictureServiceBlobImpl implements PictureService {
     public PictureData createPictureData(byte[] picture) {
         return new PictureData(picture);
     }
+
+    @Override
+    public void deletePictureByIdLike(Long id) {
+        repository.deleteById(id);
+    }
 }

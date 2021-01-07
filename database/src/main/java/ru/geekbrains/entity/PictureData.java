@@ -1,7 +1,6 @@
 package ru.geekbrains.entity;
 
 import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity
@@ -18,8 +17,7 @@ public class PictureData {
     @Column(name = "data", length = 33554430) // для правильной hibernate-валидации в MySQL
     private byte[] data;
 
-    public PictureData() {
-    }
+    public PictureData() { }
 
     public PictureData(byte[] data) {
         this.data = data;

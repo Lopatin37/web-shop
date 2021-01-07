@@ -7,13 +7,13 @@
 <div class="d-flex">
     <div th:replace="fragments/sidebar :: sidebar"></div>
     <div class="content p-4">
-        <h2 class="mb-4">Main page for admin</h2>
-
-        <div class="card mb-4">
-            <div class="card-body">
-                This is a blank page you can use as a starting point.
+        <form th:action="@{insertcategory}" method="post" th:object="${category}">
+            <div>
+                <input type="text" th:field="*{name}" placeholder="Name">
             </div>
-        </div>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
     </div>
 </div>
 <script th:replace="fragments/footer :: scripts"></script>

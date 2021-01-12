@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/header :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments/header :: header"></div>
+<div class="d-flex">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div class="content p-4">
+        <h2 class="mb-4" th:text="${product.name}">Product</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="col-12">
+                    <table class="table table-bordered my-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${product.name}">Name</td>
+                            <td th:text="${product.price}">Price</td>
+                            <td th:text="${product.brand}">Brand</td>
+                            <td th:text="${product.category}">Category</td>
+                            <td>
+                                <a class="btn btn-success" th:href="@{/products/edit(id=${product.id})}"><i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger" th:href="@{/products/delete(id=${product.id})}"><i class="far fa-trash-alt"></i> </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <div class="container-fluid mb-4">
+                            <div class="card-columns" style="column-count: 5">
+                                <div class="card" th:each="pict : ${product.pictures}">
+                                    <a th:href="@{productimg(id=${pict.id})}">
+                                        <img class="card-img-bottom" th:src="@{/picture/{pictureId}(pictureId=${pict.id})}"
+                                                                                   width="40%"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:replace="fragments/footer :: scripts"></script>
+</body>
+</html>

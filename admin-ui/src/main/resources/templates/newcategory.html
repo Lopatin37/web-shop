@@ -7,7 +7,7 @@
 <div class="d-flex">
     <div th:replace="fragments/sidebar :: sidebar"></div>
     <div class="content p-4">
-        <form th:action="@{insertcategory}" method="post" th:object="${category}">
+        <form th:action="@{/categories/insert}" method="post" th:object="${category}">
             <div>
                 <input type="text" th:field="*{name}" placeholder="Name">
             </div>

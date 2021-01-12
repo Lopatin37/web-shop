@@ -30,8 +30,8 @@
                             <td th:text="${brand.name}">Name</td>
                             <td th:text="${brand.products}">Products</td>
                             <td>
-                                <a class="btn btn-success" th:href="@{editbrand(id=${brand.id})}"><i class="fas fa-edit"></i> </a>
-                                <a class="btn btn-danger" th:href="@{deletebrand(id=${brand.id})}"><i class="far fa-trash-alt"></i> </a>
+                                <a class="btn btn-success" th:href="@{/brands/edit(id=${brand.id})}"><i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger" th:href="@{/brands/delete(id=${brand.id})}"><i class="far fa-trash-alt"></i> </a>
                             </td>
                         </tr>
                         </tbody>
@@ -44,7 +44,7 @@
                                     th:classappend="${num == brands.number + 1} ? 'active'">
                                     <a class="page-link"
                                        th:text="${num}"
-                                       th:href="@{brands(page=${num}, size=${brands.size}, name=${param.name})}">1</a>
+                                       th:href="@{brands/all(page=${num}, size=${brands.size}, name=${param.name})}">1</a>
                                 </li>
                             </ul>
                         </nav>

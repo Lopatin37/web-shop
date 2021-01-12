@@ -28,8 +28,8 @@
                             <td th:text="${product.brand}">Brand</td>
                             <td th:text="${product.category}">Category</td>
                             <td>
-                                <a class="btn btn-success" th:href="@{editproduct(id=${product.id})}"><i class="fas fa-edit"></i> </a>
-                                <a class="btn btn-danger" th:href="@{deleteproduct(id=${product.id})}"><i class="far fa-trash-alt"></i> </a>
+                                <a class="btn btn-success" th:href="@{/products/edit(id=${product.id})}"><i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger" th:href="@{/products/delete(id=${product.id})}"><i class="far fa-trash-alt"></i> </a>
                             </td>
                         </tr>
                         </tbody>

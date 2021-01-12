@@ -7,7 +7,7 @@
 <div class="d-flex">
     <div th:replace="fragments/sidebar :: sidebar"></div>
     <div class="content p-4">
-        <form th:object="${product}" method="post" th:action="@{/insertproduct}" enctype="multipart/form-data">
+        <form th:object="${product}" method="post" th:action="@{/products/insert}" enctype="multipart/form-data">
             <div class="card mb-4">
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">

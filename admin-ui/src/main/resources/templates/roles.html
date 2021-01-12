@@ -23,7 +23,6 @@
                             <th scope="col">Name</th>
                             <th scope="col">Users</th>
                             <th scope="col">Actions</th>
-                            <!--                            <th scope="col">Actions</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -31,15 +30,9 @@
                             <td th:text="${role.name}">Name</td>
                             <td th:text="${role.users}">Users</td>
                             <td>
-                                <a class="btn btn-success" th:href="@{editrole(id=${role.id})}"><i class="fas fa-edit"></i> </a>
-                                <a class="btn btn-danger" th:href="@{deleterole(id=${role.id})}"><i class="far fa-trash-alt"></i> </a>
+                                <a class="btn btn-success" th:href="@{/roles/edit(id=${role.id})}"><i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger" th:href="@{/roles/delete(id=${role.id})}"><i class="far fa-trash-alt"></i> </a>
                             </td>
-                            <!--                            <td>-->
-                            <!--                                <a class="btn btn-success"-->
-                            <!--                                   th:href="@{editproduct(id=${product.id})}"><i class="fas fa-edit"></i></a>-->
-                            <!--                                <a class="btn btn-danger"-->
-                            <!--                                   th:href="@{deleteproduct(id=${product.id})}"><i class="far fa-trash-alt"></i></a>-->
-                            <!--                            </td>-->
                         </tr>
                         </tbody>
                     </table>
@@ -51,7 +44,7 @@
                                     th:classappend="${num == roles.number + 1} ? 'active'">
                                     <a class="page-link"
                                        th:text="${num}"
-                                       th:href="@{roles(page=${num}, size=${roles.size}, name=${param.name})}">1</a>
+                                       th:href="@{/roles/all(page=${num}, size=${roles.size}, name=${param.name})}">1</a>
                                 </li>
                             </ul>
                         </nav>

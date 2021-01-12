@@ -31,8 +31,8 @@
                             <td th:text="${user.username}">Username</td>
                             <td th:text="${user.roles}">Roles of user</td>
                             <td>
-                                <a class="btn btn-success" th:href="@{edituser(id=${user.id})}"><i class="fas fa-edit"></i> </a>
-                                <a class="btn btn-danger" th:href="@{deleteuser(id=${user.id})}"><i class="far fa-trash-alt"></i> </a>
+                                <a class="btn btn-success" th:href="@{/users/edit(id=${user.id})}"><i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger" th:href="@{/users/delete(id=${user.id})}"><i class="far fa-trash-alt"></i> </a>
                             </td>
                             <!--                            <td>-->
                             <!--                                <a class="btn btn-success"-->
@@ -51,7 +51,7 @@
                                     th:classappend="${num == users.number + 1} ? 'active'">
                                     <a class="page-link"
                                        th:text="${num}"
-                                       th:href="@{users(page=${num}, size=${users.size}, username=${param.username})}">1</a>
+                                       th:href="@{/users/all(page=${num}, size=${users.size}, username=${param.username})}">1</a>
                                 </li>
                             </ul>
                         </nav>

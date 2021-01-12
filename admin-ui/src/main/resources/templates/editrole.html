@@ -23,7 +23,7 @@
                     </table>
                 </div>
                 <div class="col-12">
-                    <form th:action="@{/updateRole}" method="post" th:object="${role}">
+                    <form th:action="@{/roles/update}" method="post" th:object="${role}">
                         <input type="hidden" th:field="*{id}">
                         <div class="form-group">
                             <input type="text" class="form-control" th:field="*{name}" placeholder="Enter new name">
